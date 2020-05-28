@@ -7,6 +7,8 @@ export default class Conversor extends Component {
         this.state = {
             moedaA_valor: "",
             moedaB_valor: 0,
+            cotacao: 0,
+            teste:""
         }
 
         this.converter = this.converter.bind(this);
@@ -22,13 +24,13 @@ export default class Conversor extends Component {
                 return res.json()
             })
             .then(json => {
-                let cotacao = json[de_para];
-                let moedaB_valor = ( parseFloat(this.state.moedaA_valor) * cotacao).toFixed(2);
+              var cotacao = json[de_para];
+                this.setState({cotacao})
+              
+                let moedaB_valor = ( parseFloat(this.state.moedaA_valor) * cotacao).toFixed(3);
                 this.setState({moedaB_valor})
             });
     }
-
-
     render() {
         return (
             <div className="conversor">
@@ -36,7 +38,7 @@ export default class Conversor extends Component {
                 <input className="input" onChange={(event) => { this.setState({moedaA_valor:event.target.value})}} type="number"></input>
                 <input className="button" type="button" value="Converter" onClick={this.converter}></input>
                 <h2>Valor Convertido: <span>R$ {this.state.moedaB_valor} </span></h2>
-
+                <h4>Cotação da Moeda {this.props.moedaA} para {this.props.teste}   : {this.state.cotacao} </h4>
             </div>
         )
     }
